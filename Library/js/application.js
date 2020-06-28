@@ -16,5 +16,37 @@ function isEmpty(x) {
   return false;
 }
 
-pageData = {};
-pageLoaded = {};
+pageData = [];
+pageLoaded = [];
+
+function addLesson() {
+  for (var curPage = 0; curPage <= maxPages; curPage++) {
+    pageData.push(undefined);
+    pageLoaded.push(false);
+  }
+
+  for (var curPage = 0; curPage <= maxPages; curPage++) {
+    addLessonScript(curPage)
+  }
+}
+
+function _addLessonScript(curPage) {
+  return function () {
+    pageLoaded[curPage] = true;
+    if ( pageLoaded.every(Boolean) ) {
+      $(document).ready(function() {
+        initPages();
+      })
+    }
+  }
+}
+
+function addLessonScript(curPage) {
+  var script = document.createElement('script');
+  script.src = "DATA/pages/page-" + curPage + ".js";
+
+  script.onload = _addLessonScript(curPage);
+  script.onerror = _addLessonScript(curPage);
+
+  document.head.appendChild(script);
+}

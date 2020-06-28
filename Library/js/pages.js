@@ -14,10 +14,10 @@ pagesOrdering = [
 
 pageIndex = 1;
 
-function initPages(curLesson) {
+function initPages() {
   var pageCount = 0;
   for (var curPage = 0; curPage <= maxPages; curPage++) {
-    if ( typeof pageData[lessonSlug][curPage] === "undefined" ) { continue; }
+    if ( typeof pageData[curPage] === "undefined" ) { continue; }
     pageCount += 1;
 
     pageId = "js-page__" + pageCount;
@@ -31,16 +31,16 @@ function initPages(curLesson) {
     }
 
     pageDiv += `
-        <h2>` + pageData[lessonSlug][curPage]["chapter"] + `.` +
-        pageData[lessonSlug][curPage]["unit"] + ` &nbsp; ` +
-        pageData[lessonSlug][curPage]["pageTitle"] + `</h2>
+        <h2>` + pageData[curPage]["chapter"] + `.` +
+        pageData[curPage]["unit"] + ` &nbsp; ` +
+        pageData[curPage]["pageTitle"] + `</h2>
         </div>`;
 
     $("#js-pages").append(pageDiv);
 
     for (var i = 0; i <= pagesOrdering.length; i++) {
       var curParam = pagesOrdering[i];
-      var curValue = pageData[lessonSlug][curPage][curParam];
+      var curValue = pageData[curPage][curParam];
 
       if (isEmpty(curValue)) { continue; }
       var cleanParam = curParam.replace(/[0-9]/g, '');
@@ -83,8 +83,8 @@ function initPages(curLesson) {
       }
 
       if ( cleanParam == "question" ) {
-        var questionChoices = pageData[lessonSlug][curPage]["questionChoices"];
-        var correctAnswer = pageData[lessonSlug][curPage]["correctAnswer"];
+        var questionChoices = pageData[curPage]["questionChoices"];
+        var correctAnswer = pageData[curPage]["correctAnswer"];
 
         if ( isEmpty(questionChoices) ) { alert(curValue) }
         if ( isEmpty(correctAnswer) || correctAnswer == -1 ) { alert(curValue) }
@@ -146,24 +146,3 @@ function initPages(curLesson) {
     slidePage(pageIndex)
   });
 };
-
-function _addLessonScript(lessonSlug, curPage) {
-  return function () {
-    pageLoaded[lessonSlug][curPage] = true;
-    if ( pageLoaded[lessonSlug].every(Boolean) ) {
-      $(document).ready(function() {
-        initPages(lessonSlug);
-      })
-    }
-  }
-}
-
-function addLessonScript(lessonSlug, curPage) {
-  var script = document.createElement('script');
-  script.src = "DATA/pages/" + lessonSlug + "-" + curPage + ".js";
-
-  script.onload = _addLessonScript(lessonSlug, curPage);
-  script.onerror = _addLessonScript(lessonSlug, curPage);
-
-  document.head.appendChild(script);
-}
