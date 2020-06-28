@@ -19,7 +19,11 @@ function isEmpty(x) {
 pageData = [];
 pageLoaded = [];
 
-function addLesson() {
+lessonHeader = undefined;
+
+function addLesson(inputLessonHeader) {
+  lessonHeader = inputLessonHeader;
+
   for (var curPage = 0; curPage <= maxPages; curPage++) {
     pageData.push(undefined);
     pageLoaded.push(false);
