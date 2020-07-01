@@ -7,15 +7,19 @@ pageData[2] = {
   "video1": "",
   "gif1": "",
   "audio1": "",
-  "image1": "stomata-opening-diagram.jpg",
+  "image1": "stomata-opening-process.png",
   "paragraph2": "",
   "video2": "",
   "gif2": "",
   "audio2": "",
   "image2": "",
-  "paragraph3": "This is the 3rd paragraph.",
-  "question": "",
-  "correctAnswer": -1,
+  "paragraph3": "",
+  "question": "Do mammals have stomata?",
+  "correctAnswer": 2,
   "questionChoices": [
+    "Yes",
+    "No",
+    "Depends on the species",
+    "Not enough information to answer this question"
   ]
 };
