@@ -5,11 +5,11 @@ $(document).ready(function() {
       <div id="js-pagination-boxes">
       </div>
       <div id="js-pagination-buttons">
-        <button class="cs-progress-button" id="js-left-button"><h1>&#9668;</h1></button>
+        <button class="cs-progress-button" id="js-left-button"><h1>&#9658;</h1></button>
         &nbsp; &nbsp; &nbsp;
         <button class="cs-progress-button" id="js-right-button"><h1>&#9658;</h1></button>
       </div>
-      <button class="cs-progress-button" id="js-right-button"><h1>&#10683;</h1></button>
+      <button class="cs-progress-button"><h1>&#10683;</h1></button>
     </div>
   `);
 

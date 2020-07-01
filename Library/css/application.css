@@ -52,6 +52,15 @@ html, body {
   border: solid 1px #7EBC57;
   background-color: white;
   color: #7EBC57;
+  font-family: comic-sans;
+}
+
+#js-left-button {
+  -moz-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
 }
 
 .cs-progress-button h1 {
