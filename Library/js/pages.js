@@ -116,13 +116,24 @@ function initPages() {
     $("#" + pageId).append("<br><br>");
   }
 
+  for (var k = 1; k <= pageCount; k++) {
+    if ( k == 1 ) {
+      $("#js-pagination-boxes").append(`
+        <div class='cs-pagination-box cs-active' id='js-pagination-box__` + k + `'>&nbsp;</div>
+      `)
+    } else {
+      $("#js-pagination-boxes").append(`
+        <div class='cs-pagination-box' id='js-pagination-box__` + k + `'>&nbsp;</div>
+      `)
+    }
+  }
+
   $("#js-left-button").off("click");
   $("#js-right-button").off("click");
 
   function slidePage(pageIndex) {
-    var pagePercentage = Math.round(100 * (pageIndex-1) / (pageCount-1))
-    $("#js-progress").val(pagePercentage);
-    $("#js-progress").text(pagePercentage + "%");
+    $(".cs-pagination-box").removeClass("cs-active");
+    $("#js-pagination-box__" + pageIndex).addClass("cs-active");
 
     for (var curPage = 1; curPage < pageIndex; curPage++) {
       $("#js-page__" + curPage).css("transform", " translateX(calc(-48px - 100%))");
@@ -140,6 +151,7 @@ function initPages() {
     if ( pageIndex < 1 ) { pageIndex = 1; }
     slidePage(pageIndex)
   });
+
   $("#js-right-button").on("click", function() {
     pageIndex += 1;
     if ( pageIndex > pageCount ) { pageIndex = pageCount; }
