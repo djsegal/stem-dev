@@ -1,4 +1,11 @@
 $(document).attr("title", lessonHeader.Title);
+
+function close_window() {
+  if (confirm("Are you sure you're done with this exercise?")) {
+    close();
+  }
+}
+
 $(document).ready(function() {
   $("#main").prepend("<div id='js-page-container'><div id='js-pages'></div></div>")
   $("#main").prepend(`
@@ -10,6 +17,9 @@ $(document).ready(function() {
         &nbsp; &nbsp; &nbsp;
         <button class="cs-progress-button" id="js-right-button"><h1>&#9658;</h1></button>
       </div>
+      <button onclick="close_window();return false;" class="cs-progress-button">
+        <h1>&#10683;</h1>
+      </button>
     </div>
   `);
 
