@@ -14,6 +14,8 @@ pagesOrdering = [
 
 pageIndex = 1;
 
+nextQuestion = undefined;
+
 function initPages() {
   var pageCount = 0;
   for (var curPage = 0; curPage <= maxPages; curPage++) {
@@ -83,29 +85,61 @@ function initPages() {
       }
 
       if ( cleanParam == "question" ) {
-        var questionChoices = pageData[curPage]["questionChoices"];
-        var correctAnswer = pageData[curPage]["correctAnswer"];
+        if ( typeof nextQuestion === "undefined" ) {
+          nextQuestion = pageCount;
+        }
 
+        var questionChoices = pageData[curPage]["questionChoices"];
         if ( isEmpty(questionChoices) ) { alert(curValue) }
-        if ( isEmpty(correctAnswer) || correctAnswer == -1 ) { alert(curValue) }
 
         $("#" + pageId).append(`
           <br><br><br><hr><br><h3> Q: &nbsp; ` + curValue + `</h3>
         `)
 
-        for (var j = 0; j < questionChoices.length; j++) {
-          $("#" + pageId).append(`<button style="font-weight: bold;" class="js-answer__` + (1+j) + `">` + questionChoices[j] + `</button> <br><br>`)
+        var tmpFunction = function (curChoice) {
+          return function(curEvent) {
+            $(curEvent.target.parentElement.parentElement).children("div").children("button").css("backgroundColor", "");
+            curEvent.target.style["backgroundColor"] = "coral";
+
+            $(curEvent.target.parentElement).children("span").css("color", "red");
+            $(curEvent.target.parentElement.parentElement).children("div").children("span").text("");
+            $(curEvent.target.parentElement).children("span").text(curChoice);
+          }
         }
 
-        $("#" + pageId + " button").on("click", function(curEvent) {
-          tmpAnswer = parseInt(curEvent.target.className.match(/\d+/)[0]);
+        for (var j = 0; j < questionChoices.length; j++) {
+          var questionClass = "js-answer__" + (1+j);
 
-          if ( tmpAnswer == correctAnswer ) {
-            curEvent.target.style["backgroundColor"] = "lightgreen";
+          if ( Array.isArray(questionChoices[j]) ) {
+            $("#" + pageId).append(`<div><button style="font-weight: bold;" class="js-answer ` + (questionClass) + `">` + questionChoices[j][0] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
+
+            $("#" + pageId + " ." + questionClass).on("click", tmpFunction(questionChoices[j][1]))
           } else {
-            curEvent.target.style["backgroundColor"] = "coral";
+            $("#" + pageId).append(`<div><button style="font-weight: bold;" class="js-answer ` + (questionClass) + `">` + questionChoices[j] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
+
+            $("#" + pageId + " ." + questionClass).on("click", function(curEvent) {
+              $(curEvent.target.parentElement.parentElement).children("div").children("button").css("backgroundColor", "");
+              curEvent.target.style["backgroundColor"] = "lightgreen";
+
+              $(curEvent.target.parentElement).children("span").css("color", "green");
+              $(curEvent.target.parentElement.parentElement).children("div").children("span").text("");
+              $(curEvent.target.parentElement).children("span").text("Correct!")
+
+              otherId = curEvent.target.parentElement.parentElement.id;
+              for (var k = 0; k < questionChoices.length; k++) {
+                var otherClass = "js-answer__" + (1+k);
+                $("#" + otherId + " ." + otherClass).off("click")
+              }
+
+              $("#js-right-button").on("click", rightButtonClick);
+              $("#js-right-button").removeClass("cs-disable");
+
+              nextQuestion = $(".js-question-page").map(function() { return parseInt(this.id.match(/\d+/)[0]); }).get().filter(function(curIndex) { return curIndex > nextQuestion; })[0];
+            })
           }
-        })
+        }
+
+        $("#" + pageId).addClass("js-question-page");
 
         continue;
       }
@@ -144,17 +178,52 @@ function initPages() {
     for (var curPage = 1+pageIndex; curPage <= pageCount; curPage++) {
       $("#js-page__" + curPage).css("transform", " translateX(calc(+48px + 100%))");
     }
+
+    if ( pageIndex > nextQuestion ) { alert("You skipped a question!"); }
+
+    if ( $("#js-page__" + pageIndex).hasClass("js-question-page") && pageIndex == nextQuestion ) {
+
+      $("#js-right-button").off("click");
+      $("#js-right-button").addClass("cs-disable");
+    }
   }
 
-  $("#js-left-button").on("click", function() {
+  function leftButtonClick() {
     pageIndex -= 1;
     if ( pageIndex < 1 ) { pageIndex = 1; }
-    slidePage(pageIndex)
-  });
+    if ( pageIndex == 1 ) {
+      $("#js-left-button").addClass("cs-disable");
+    }
 
-  $("#js-right-button").on("click", function() {
-    pageIndex += 1;
-    if ( pageIndex > pageCount ) { pageIndex = pageCount; }
     slidePage(pageIndex)
-  });
+
+    $("#js-right-button").off("click");
+    $("#js-right-button").on("click", rightButtonClick);
+    $("#js-right-button").removeClass("cs-disable");
+  }
+
+  function rightButtonClick() {
+    $(".js-reason:contains('Correct!')").text("");
+
+    $("#js-left-button").off("click");
+    $("#js-left-button").on("click", leftButtonClick);
+    $("#js-left-button").removeClass("cs-disable");
+
+    pageIndex += 1;
+
+    pageLimit = nextQuestion || pageCount;
+    if ( pageIndex >= pageLimit ) {
+      pageIndex = pageLimit;
+      $("#js-right-button").off("click");
+      $("#js-right-button").addClass("cs-disable");
+    }
+
+    slidePage(pageIndex)
+  }
+
+  if ( ( nextQuestion || pageCount ) == 1 ) {
+    $("#js-right-button").addClass("cs-disable");
+  } else {
+    $("#js-right-button").on("click", rightButtonClick);
+  }
 };

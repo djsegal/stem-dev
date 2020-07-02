@@ -87,3 +87,13 @@ html, body {
 #js-pagination-boxes .cs-pagination-box:first-child {
   border-left: solid 3px #6FB759;
 }
+
+.cs-disable {
+  color: lightgrey;
+  border-color: lightgrey;
+  box-shadow: none !important;
+}
+
+.cs-progress-button:not(.cs-disable) {
+  cursor: pointer;
+}

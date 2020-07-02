@@ -1,19 +1,18 @@
 $(document).attr("title", lessonHeader.Title);
 $(document).ready(function() {
+  $("#main").prepend("<div id='js-page-container'><div id='js-pages'></div></div>")
   $("#main").prepend(`
     <div id="js-pagination">
       <div id="js-pagination-boxes">
       </div>
       <div id="js-pagination-buttons">
-        <button class="cs-progress-button" id="js-left-button"><h1>&#9658;</h1></button>
+        <button class="cs-progress-button cs-disable" id="js-left-button"><h1>&#9658;</h1></button>
         &nbsp; &nbsp; &nbsp;
         <button class="cs-progress-button" id="js-right-button"><h1>&#9658;</h1></button>
       </div>
-      <button class="cs-progress-button"><h1>&#10683;</h1></button>
     </div>
   `);
 
-  $("#main").prepend("<div id='js-page-container'><div id='js-pages'></div></div>")
   $("#main").prepend("<h1 id='js-lesson-header'>" + lessonHeader.Title + "</h1>")
 
   $(window).resize();
