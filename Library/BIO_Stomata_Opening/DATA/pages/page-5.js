@@ -15,7 +15,6 @@ pageData[5] = {
   "image2": "",
   "paragraph3": "This is the 3rd paragraph.",
   "question": "",
-  "correctAnswer": -1,
   "questionChoices": [
   ]
 };

@@ -14,8 +14,9 @@ pageData[1] = {
   "audio2": "",
   "image2": "",
   "paragraph3": "",
-  "question": "",
-  "correctAnswer": -1,
+  "question": "Answer Yes",
   "questionChoices": [
+    "Yes",
+    ["No", "Try again!"]
   ]
 };

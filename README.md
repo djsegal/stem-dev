@@ -24,7 +24,6 @@ pageData[1] = {
   "image2": "",
   "paragraph3": "",
   "question": "",
-  "correctAnswer": -1,
   "questionChoices": [
   ]
 };

@@ -15,11 +15,10 @@ pageData[2] = {
   "image2": "",
   "paragraph3": "",
   "question": "Do mammals have stomata?",
-  "correctAnswer": 2,
   "questionChoices": [
-    "Yes",
+    ["Yes", "Try again. Humans – for example – lack stomata!"],
     "No",
-    "Depends on the species",
-    "Not enough information to answer this question"
+    ["Depends on the species", "Maybe be a little more specific!"],
+    ["Not enough information to answer this question", "Assume we're only talking about known organisms on earth..."]
   ]
 };

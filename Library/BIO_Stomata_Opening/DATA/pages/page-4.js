@@ -14,8 +14,11 @@ pageData[4] = {
   "audio2": "",
   "image2": "",
   "paragraph3": "This is the 3rd paragraph.",
-  "question": "",
-  "correctAnswer": -1,
+  "question": "Do mammals *not* have stomata?",
   "questionChoices": [
+    ["No", "Try again. Humans – for example – lack stomata!"],
+    "Yes",
+    ["Depends on the species", "Maybe be a little more specific!"],
+    ["Not enough information to answer this question", "Assume we're only talking about known organisms on earth..."]
   ]
 };
