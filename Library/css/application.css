@@ -7,6 +7,10 @@ html, body {
   top: 0;
 }
 
+button {
+  min-width: 70px;
+}
+
 #main {
   margin-left: 24px;
   margin-right: 24px;
