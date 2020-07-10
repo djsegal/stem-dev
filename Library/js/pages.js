@@ -16,6 +16,82 @@ pageIndex = 1;
 
 nextQuestion = undefined;
 
+gifLoaded = {};
+gifIntervals = {};
+gifProgresses = {};
+gifPlaytimes = {};
+
+function loadGIF(gifID, sequence, playtime) {
+  if ( gifLoaded[[gifID, sequence]] === true ) { return; }
+  gifLoaded[[gifID, sequence]] = true;
+
+  if ( sequence === 1 ) {
+    if ( typeof gifLoaded[[gifID, 2]] === "undefined" ) { return; }
+  } else if ( sequence === 2 ) {
+    gifPlaytimes[gifID] = playtime;
+    if ( typeof gifLoaded[[gifID, 1]] === "undefined" ) { return; }
+  } else {
+    alert("Invalid sequence for loadGIF")
+  }
+
+  var manual = new Freezeframe("#" + gifID + " img", {
+    trigger: false, responsive: false
+  });
+
+  $("#" + gifID + " .cs-row:last-child .cs-col:last-child").width(
+    $("#" + gifID + " .cs-row:first-child .cs-col:last-child").width()
+  );
+
+  var curAudio = $("#" + gifID + " audio")[0];
+
+  $("#" + gifID + " .js-play-button").click(function(curEvent) {
+    if ( curEvent.target.firstChild.textContent == "▶️" ) {
+      curEvent.target.firstChild.textContent = "⏹️";
+      manual.start();
+      if ( typeof curAudio !== "undefined" ) { curAudio.play(); }
+
+      gifProgresses[gifID] = 0;
+
+      intervalLength = 0.05;
+      gifIntervals[gifID] = setInterval(function(){
+        gifProgresses[gifID] += intervalLength;
+
+        if ( gifProgresses[gifID] >= gifPlaytimes[gifID] ) {
+          curEvent.target.click();
+        } else {
+          $("#" + gifID + " progress")[0].value = String(parseInt(Math.ceil(100*gifProgresses[gifID]/gifPlaytimes[gifID])));
+        }
+      },1000*intervalLength);
+
+    } else {
+      curEvent.target.firstChild.textContent = "▶️";
+      manual.stop();
+      if ( typeof curAudio !== "undefined" ) {
+        curAudio.pause();
+        curAudio.currentTime = 0;
+      }
+
+      if ( typeof gifIntervals[gifID] !== "undefined" ) {
+        clearInterval(gifIntervals[gifID]);
+        gifIntervals[gifID] = undefined;
+
+        gifProgresses[gifID] = 0;
+        $("#" + gifID + " progress")[0].value = "0";
+      }
+    }
+  })
+
+  $("#" + gifID + " .js-sound-button").click(function(curEvent) {
+    if ( curEvent.target.firstChild.textContent == "🔈" ) {
+      curEvent.target.firstChild.textContent = "🔇";
+      curAudio.muted = true;
+    } else {
+      curEvent.target.firstChild.textContent = "🔈";
+      curAudio.muted = false;
+    }
+  })
+}
+
 function initPages() {
   var pageCount = 0;
   for (var curPage = 0; curPage <= maxPages; curPage++) {
@@ -58,7 +134,61 @@ function initPages() {
       }
 
       if ( cleanParam === "gif" ) {
-        $("#" + pageId).append("<img src='./DATA/media/" + curValue + "'>");
+        var gifID = "js-gif__" + pageCount + "-" + i;
+        var gifDiv = `<div class="cs-gif" id="` + gifID + `">`
+
+        var audioParam = pageData[curPage][curParam.replace('gif', 'audio')];
+        var playtimeParam = pageData[curPage][curParam.replace('gif', 'playtime')];
+
+        gifDiv += `<div class="cs-row"><div class="cs-col">`;
+
+        if ( !isEmpty(audioParam) ) {
+          gifDiv += `
+            <button class="cs-button js-sound-button"><h1>🔈</h1></button>
+
+            <audio>
+              <source src="./DATA/media/` + audioParam + `" type="audio/mpeg">
+            </audio>
+          `;
+        } else {
+          gifDiv += `
+            <button class="cs-button js-sound-button" style="visibility: hidden;"><h1>🔈</h1></button>
+          `;
+        }
+
+        gifDiv += `</div><div class="cs-col"><img onload="loadGIF('` + gifID + `', 1)" src='./DATA/media/` + curValue + `'></div></div>`;
+        gifDiv += `<div class="cs-row"><div class="cs-col"><button class="cs-button js-play-button"><h1>▶️</h1></button></div><div class="cs-col"><progress class="cs-gif-progress" value="0" max="100"></progress></div></div>`;
+
+        gifDiv += `</div>`;
+
+        $("#" + pageId).append(gifDiv);
+
+        if ( !isEmpty(audioParam) ) {
+          if ( playtimeParam !== -1 ) { alert("Redundant playtime information for gif!"); }
+          if ( !audioParam.endsWith(".mp3") ) { alert(audioParam); }
+
+          $("#" + pageId + " audio")[0].addEventListener("loadeddata", function(curEvent) {
+            loadGIF(gifID, 2, curEvent.target.duration);
+          })
+        } else {
+          if ( playtimeParam === -1 ) { alert("Missing playtime information for gif!"); }
+          loadGIF(gifID, 2, playtimeParam)
+        }
+
+        continue;
+      } else if ( cleanParam === "audio" ) {
+        var gifParam = pageData[curPage][curParam.replace('audio', 'gif')];
+
+        if ( isEmpty(gifParam) ) {
+          if ( !curValue.endsWith(".mp3") ) { alert(curValue); }
+
+          $("#" + pageId).append(`
+            <audio controls>
+              <source src="./DATA/media/` + curValue + `" type="audio/mpeg">
+            </audio>
+          `)
+        }
+
         continue;
       }
 
@@ -69,17 +199,6 @@ function initPages() {
           <video controls>
             <source src="./DATA/media/` + curValue + `" type="video/mp4">
           </video>
-        `)
-        continue;
-      }
-
-      if ( cleanParam === "audio" ) {
-        if ( !curValue.endsWith(".mp3") ) { alert(curValue); }
-
-        $("#" + pageId).append(`
-          <audio controls>
-            <source src="./DATA/media/` + curValue + `" type="audio/mpeg">
-          </audio>
         `)
         continue;
       }
@@ -111,11 +230,11 @@ function initPages() {
           var questionClass = "js-answer__" + (1+j);
 
           if ( Array.isArray(questionChoices[j]) ) {
-            $("#" + pageId).append(`<div><button style="font-weight: bold;" class="js-answer ` + (questionClass) + `">` + questionChoices[j][0] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
+            $("#" + pageId).append(`<div><button style="font-weight: bold; font-size: large;" class="js-answer ` + (questionClass) + `">` + questionChoices[j][0] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
 
             $("#" + pageId + " ." + questionClass).on("click", tmpFunction(questionChoices[j][1]))
           } else {
-            $("#" + pageId).append(`<div><button style="font-weight: bold;" class="js-answer ` + (questionClass) + `">` + questionChoices[j] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
+            $("#" + pageId).append(`<div><button style="font-weight: bold; font-size: large;" class="js-answer ` + (questionClass) + `">` + questionChoices[j] + `</button>&nbsp;&nbsp;&nbsp;<span class="js-reason"></span></div><br><br>`)
 
             $("#" + pageId + " ." + questionClass).on("click", function(curEvent) {
               $(curEvent.target.parentElement.parentElement).children("div").children("button").css("backgroundColor", "");

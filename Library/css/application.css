@@ -28,11 +28,12 @@ html, body {
 .cs-page {
   position: absolute;
   width: calc(100% - 48px);
-  max-height: 100%;
+  height: 100%;
   overflow-y: scroll;
   margin-left: 24px;
   margin-right: 24px;
   transition: transform 0.8s;
+  background-color: white;
 }
 
 #js-pagination {
@@ -43,12 +44,12 @@ html, body {
   margin-bottom: 24px;
 }
 
-.cs-progress-button:focus {
+.cs-button:focus {
   outline: none !important;
   box-shadow: 0 0 3px #7EBC57;
 }
 
-.cs-progress-button {
+.cs-button {
   border: solid 1px #7EBC57;
   background-color: white;
   color: #7EBC57;
@@ -63,29 +64,31 @@ html, body {
   transform: scale(-1, 1);
 }
 
-.cs-progress-button h1 {
+.cs-button h1 {
   margin: 4px 12px;
 }
 
 #js-pagination-boxes {
   font-size: 0;
-  border-top: solid 3px #6FB759;
-  border-bottom: solid 3px #6FB759;
+  border: solid 3px #6FB759;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .cs-pagination-box {
   height: 100%;
   width: 24px;
   display: inline-block;
-  border-right: solid 3px #6FB759;
 }
 
 .cs-pagination-box.cs-active {
   background-color: #6FB759;
 }
 
-#js-pagination-boxes .cs-pagination-box:first-child {
-  border-left: solid 3px #6FB759;
+.cs-pagination-box:not(:last-child) {
+  border-right: solid 3px #6FB759;
 }
 
 .cs-disable {
@@ -94,6 +97,25 @@ html, body {
   box-shadow: none !important;
 }
 
-.cs-progress-button:not(.cs-disable) {
+.cs-button:not(.cs-disable) {
   cursor: pointer;
+}
+
+.cs-row {
+  display: flex;
+}
+
+.cs-row:not(:first-of-type) {
+  margin-top: 36px;
+}
+
+.cs-col:not(:first-of-type) {
+  margin-left: 36px;
+}
+
+.cs-gif-progress {
+  height: 100%;
+  background-color: #58B950;
+  opacity: 0.85;
+  width: 100%;
 }
