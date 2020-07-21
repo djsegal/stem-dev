@@ -2,7 +2,7 @@ pageData[4] = {
   "chapter": 1,
   "unit": 4,
   "pageTitle": "Page 4",
-  "paragraph0": "This is the 0th paragraph.",
+  "paragraph0": `This is the 0th paragraph.`,
   "paragraph1": "",
   "video1": "",
   "gif1": "",
@@ -15,7 +15,7 @@ pageData[4] = {
   "playtime2": -1,
   "audio2": "",
   "image2": "",
-  "paragraph3": "This is the 3rd paragraph.",
+  "paragraph3": `This is the 3rd paragraph.`,
   "question": "Do mammals *not* have stomata?",
   "questionChoices": [
     ["No", "Try again. Humans – for example – lack stomata!"],
