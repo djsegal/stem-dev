@@ -4,13 +4,16 @@ pagesMediaTypes = [
   "video", "gif", "audio", "image"
 ];
 
-pagesOrdering = [
-  "paragraph0",
-  "paragraph1", "video1", "gif1", "audio1", "image1",
-  "paragraph2", "video2", "gif2", "audio2", "image2",
-  "paragraph3",
-  "question"
-];
+pagesOrdering = [];
+
+for (var i = 0; i <= 9; i++) {
+  tmpOrder = ["paragraph"].concat(pagesMediaTypes);
+  pagesOrdering = pagesOrdering.concat(
+    tmpOrder.map(function(curVar) { return curVar + i })
+  );
+}
+
+pagesOrdering = pagesOrdering.concat(["question"]);
 
 pageIndex = 1;
 
