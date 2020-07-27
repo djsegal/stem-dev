@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="../jquery.js"></script>
+
+    <script src="osmosis-interactive.js"></script>
+    <link rel="stylesheet" href="osmosis-interactive.css">
+
+    <title>Osmosis Interactive</title>
+  </head>
+  <body>
+    <div id="main">
+
+      <div class="js-grid-labels cs-labels"></div>
+
+      <div class="cs-grid-container">
+        <div class="cs-grid-outer">
+          <div class="cs-grid" id="js-left-grid">
+          </div>
+        </div>
+        <div class="js-grid-divider"></div>
+        <div class="cs-grid-outer">
+          <div class="cs-grid" id="js-right-grid">
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-grid-movement">
+      </div>
+
+      <div class="js-concentrations-labels cs-labels"></div>
+
+      <div class="js-concentrations-container">
+        <div class="js-concentrations" id="js-left-concentrations">
+        </div>
+        <div class="js-concentrations-divider"></div>
+        <div class="js-concentrations" id="js-right-concentrations">
+        </div>
+      </div>
+
+      <button style="width: 20%; margin-left: 40%; margin-top: 32px; padding-top: 16px; padding-bottom: 16px; font-weight: bold; font-size: large" id="js-play">Play</button>
+
+    </div>
+  </body>
+</html>

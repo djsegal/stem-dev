@@ -1,0 +1,92 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.cs-labels {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cs-grid-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cs-grid-outer {
+  width: 45%;
+  font-size: 0;
+  box-sizing: border-box;
+}
+
+.cs-grid {
+  padding: 2%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cs-grid-container .cs-grid-outer:first-child {
+  padding-left: 5%;
+}
+
+.cs-grid-container .cs-grid-outer:last-child {
+  padding-right: 5%;
+}
+
+.js-grid-divider {
+  width: 9%;
+  background-color: grey;
+}
+
+.cs-grid-container div {
+  display: inline-block;
+}
+
+.cs-col {
+  border-radius: 50%;
+}
+
+.cs-grid {
+  padding: 2%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cs-item {
+  width: 100%;
+  display: flex;
+  padding-top: 16px;
+}
+
+.cs-item:last-child {
+  padding-bottom: 16px;
+}
+
+.js-concentrations-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.js-concentrations {
+  width: 35%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.js-concentrations-divider {
+  width: 5%;
+  background-color: grey;
+}
+
+.cs-item__left {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.cs-item__right {
+  flex: 1;
+}
