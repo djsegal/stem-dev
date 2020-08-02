@@ -127,7 +127,10 @@ function initPages() {
       var cleanParam = curParam.replace(/[0-9]/g, '');
 
       if ( cleanParam === "paragraph" ) {
-        $("#" + pageId).append("<p>" + curValue + "</p>");
+        splitValues = curValue.trim().split("\n");
+        for (var j = 0; j < splitValues.length; j++) {
+          $("#" + pageId).append("<p>" + splitValues[j].trim() + "</p>");
+        }
         continue;
       }
 
