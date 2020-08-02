@@ -4,6 +4,11 @@ html, body {
   font-family: sans-serif;
 }
 
+#main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .cs-labels {
   display: flex;
   justify-content: space-around;

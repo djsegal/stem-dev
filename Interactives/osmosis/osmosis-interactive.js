@@ -4,8 +4,8 @@ var rightGridLabel = "Inside";
 var concentrationLabel = "Concentration";
 var solventName = "Water";
 
-var rowCount = 8;
-var colCount = 10;
+var rowCount = 10;
+var colCount = 12;
 
 var cellWidth = 8;
 var cellMargin = 6;
