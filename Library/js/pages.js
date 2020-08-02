@@ -256,8 +256,10 @@ function initPages() {
                 $("#" + otherId + " ." + otherClass).off("click")
               }
 
-              $("#js-right-button").on("click", rightButtonClick);
-              $("#js-right-button").removeClass("cs-disable");
+              if ( $(curEvent.target).parentsUntil("#js-pages")[$(curEvent.target).parentsUntil("#js-pages").length-1].id !== $("#js-pages").children()[$("#js-pages").children().length-1].id ) {
+                $("#js-right-button").on("click", rightButtonClick);
+                $("#js-right-button").removeClass("cs-disable");
+              }
 
               nextQuestion = $(".js-question-page").map(function() { return parseInt(this.id.match(/\d+/)[0]); }).get().filter(function(curIndex) { return curIndex > nextQuestion; })[0];
             })
