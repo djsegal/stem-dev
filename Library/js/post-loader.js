@@ -31,7 +31,12 @@ $(window).resize(function() {
   var pageHeight = $(window).outerHeight(true);
 
   pageHeight -= $("#js-lesson-header").outerHeight(true);
-  pageHeight -= $("#js-pagination").outerHeight(true);
+
+  if ( $("#js-pagination").css("display") == "none" ) {
+    pageHeight -= 24;
+  } else {
+    pageHeight -= $("#js-pagination").outerHeight(true);
+  }
 
   $("#js-page-container").width("100%");
   $("#js-page-container").height(pageHeight);

@@ -351,4 +351,9 @@ function initPages() {
   } else {
     $("#js-right-button").on("click", rightButtonClick);
   }
+
+  if ( $(".cs-page").length <= 1 ) {
+    $("#js-pagination").css("display", "none");
+    $(window).resize();
+  }
 };
