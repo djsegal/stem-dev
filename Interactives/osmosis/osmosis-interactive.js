@@ -352,7 +352,12 @@ $(document).on("click", "#js-play", function() {
                 if ( typeof otherParticle !== "undefined" ) {
                   var thisColor = curCell.css('background-color');
 
-                  if ( !isAgainstGradient(curCell, k) ) {
+                  var doChangeBoundary = (
+                    ( isAgainstGradient(curCell, k) && Math.random() < 0.05 ) ||
+                    ( !isAgainstGradient(curCell, k) && Math.random() > 0.2 )
+                  )
+
+                  if ( doChangeBoundary ) {
                     var otherColor = otherParticle[0].css('background-color');
 
                     curCell.css('background-color', otherColor);
