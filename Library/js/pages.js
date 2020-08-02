@@ -24,6 +24,10 @@ gifIntervals = {};
 gifProgresses = {};
 gifPlaytimes = {};
 
+function loadSourceError (curTarget) {
+  alert("Invalid file source: \n" + curTarget.src);
+}
+
 function loadGIF(gifID, sequence, playtime) {
   if ( gifLoaded[[gifID, sequence]] === true ) { return; }
   gifLoaded[[gifID, sequence]] = true;
@@ -153,7 +157,7 @@ function initPages() {
             <button class="cs-button js-sound-button"><h1>🔈</h1></button>
 
             <audio>
-              <source src="./DATA/media/` + audioParam + `" type="audio/mpeg">
+              <source onerror="loadSourceError(this)" src="./DATA/media/` + audioParam + `" type="audio/mpeg">
             </audio>
           `;
         } else {
@@ -190,7 +194,7 @@ function initPages() {
 
           $("#" + pageId).append(`
             <audio controls>
-              <source src="./DATA/media/` + curValue + `" type="audio/mpeg">
+              <source onerror="loadSourceError(this)" src="./DATA/media/` + curValue + `" type="audio/mpeg">
             </audio>
           `)
         }
@@ -203,7 +207,7 @@ function initPages() {
 
         $("#" + pageId).append(`
           <video controls>
-            <source src="./DATA/media/` + curValue + `" type="video/mp4">
+            <source onerror="loadSourceError(this)" src="./DATA/media/` + curValue + `" type="video/mp4">
           </video>
         `)
         continue;
